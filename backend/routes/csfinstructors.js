@@ -2,12 +2,14 @@ const router = require("express").Router();
 const multer = require("multer");
 const Instructors = require("../models/csfinstructors.model");
 
+// get instructors
 router.route("/").get((req, res) => {
   Instructors.find()
     .then((instructor) => res.json(instructor))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// file storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./public");
@@ -23,7 +25,7 @@ const upload = multer({ storage }).fields([
   { name: "coursedocument" },
 ]);
 
-router.route("/uploads").post(upload, (req, res) => {
+/* router.route("/uploads").post(upload, (req, res) => {
   const { files } = req;
 
   console.log(files["coursedocument"][0].originalname);
@@ -36,8 +38,9 @@ router.route("/uploads").post(upload, (req, res) => {
     coursedocumentpath:
       (files["coursedocument"][0] && files["coursedocument"][0].path) || null,
   });
-});
+});  */
 
+// add instructor
 router.route("/add").post(upload, (req, res) => {
   const {
     firstname,
@@ -67,13 +70,14 @@ router.route("/add").post(upload, (req, res) => {
 
   newInstructor
     .save()
-    .then(() => res.json(" Added"))
+    .then(() => res.json("instructor Added"))
     .catch((err) => res.status(400).json("error: " + err));
 });
 
+// delete instructor
 router.route("/:id").delete((req, res) => {
   Instructors.findByIdAndDelete(req.params.id)
-    .then(() => res.json(`course of id ${req.params.id} is deleted`))
+    .then(() => res.json(`instructor of id ${req.params.id} is deleted`))
     .catch((err) => res.status(400).json("Error", err));
 });
 
@@ -104,9 +108,14 @@ router.route("/findAllMatchs/field/:sentence").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// update instructor by id
 router.route("/update/:id").post((req, res) => {
   Instructors.findById(req.params.id)
     .then((instructor) => {
+      const { files } = req;
+
+      console.log(files);
+
       instructor.firstname = req.body.firstname;
       instructor.secondname = req.body.secondname;
       instructor.field = req.body.field;
@@ -114,8 +123,8 @@ router.route("/update/:id").post((req, res) => {
       instructor.email = req.body.email;
       instructor.adress = req.body.adress;
       instructor.city = req.body.city;
-      instructor.coursedocument = req.body.coursedocument;
-      instructor.cv = req.body.cv;
+      instructor.coursedocument = files["coursedocument"][0].filename;
+      instructor.cv = files["cv"][0].filename;
 
       instructor
         .save()

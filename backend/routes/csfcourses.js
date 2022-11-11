@@ -16,6 +16,7 @@ router.route("/findAllMatchs/:sentence").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// Add a course
 router.route("/add").post((req, res) => {
   const name = req.body.name;
   const field = req.body.field;
@@ -28,23 +29,24 @@ router.route("/add").post((req, res) => {
     .catch((err) => res.status(400).json("error: " + err));
 });
 
+// delete a course by id
 router.route("/:id").delete((req, res) => {
   Course.findByIdAndDelete(req.params.id)
     .then(() => res.json(`course of id ${req.params.id} is deleted`))
     .catch((err) => res.status(400).json("Error", err));
 });
 
+// Update course by id
+
 router.route("/UpdateCourse/:id").post((req, res) => {
   Course.findById(req.params.id)
     .then((course) => {
-      console.log(course.name);
-
       course.name = req.body.name;
       course.field = req.body.field;
 
       course
         .save()
-        .then(() => res.json("course updtaed"))
+        .then(() => res.json("course updated"))
         .catch((err) => res.status(400).json("error", err));
     })
     .catch((err) => res.status(400).json("Error", err));

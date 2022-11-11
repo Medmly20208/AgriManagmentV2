@@ -7,12 +7,12 @@ const coursesSchema = new Schema(
     name: {
       type: String,
       required: true,
-      trim: true,
+      trim: false,
     },
     field: {
       type: String,
       required: true,
-      trim: true,
+      trim: false,
     },
   },
   {

@@ -43,8 +43,6 @@ export default function BasicModal(props) {
     getAllCourses();
   }, []);
 
-  console.log(availabeCourses);
-
   const [firstname, setfirstname] = useState('');
   const [secondname, setsecondname] = useState('');
   const [field, setfield] = useState('');
@@ -55,44 +53,10 @@ export default function BasicModal(props) {
   const [coursedocument, setcoursedocument] = useState('');
   const [cv, setcv] = useState('');
 
-  const [filterCourses, setFilterCourses] = useState();
-
   const handleAddInstructor = () => {
     props.onAddInstructor({ firstname, secondname, field, phonenumber, email, adress, city, coursedocument, cv });
     props.handleClose();
   };
-
-  // get all matches
-  const getAllMatches = (value) => {
-    setFilterCourses(value);
-    if (value.trim().length === 0) {
-      getAllCourses();
-    } else {
-      axios.get(`http://localhost:5000/csfcourses/findAllMatchs/${value}`).then((res) => {
-        setAvailableCourses(res.data);
-      });
-    }
-  };
-
-  // Search courses
-  /*
- <TextField
-                      fullWidth
-                      value={filterCourses}
-                      onChange={(event) => getAllMatches(event.target.value)}
-                      placeholder={`Search Course`}
-                      sx={{ width: '80%', marginLeft: '10px' }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <Iconify icon={'eva:search-fill'} sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-
-
-*/
 
   return (
     <Modal

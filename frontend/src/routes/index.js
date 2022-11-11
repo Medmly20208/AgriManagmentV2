@@ -64,7 +64,7 @@ export default function Router() {
       ),
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
-        { path: 'app', element: <GeneralApp /> },
+        { path: 'app', element: <p>Dashboard</p> },
         { path: 'ecommerce', element: <GeneralEcommerce /> },
         { path: 'analytics', element: <GeneralAnalytics /> },
         { path: 'banking', element: <GeneralBanking /> },
@@ -155,13 +155,7 @@ export default function Router() {
     },
     {
       path: '/',
-      element: <MainLayout />,
-      children: [
-        { element: <HomePage />, index: true },
-        { path: 'about-us', element: <About /> },
-        { path: 'contact-us', element: <Contact /> },
-        { path: 'faqs', element: <Faqs /> },
-      ],
+      element: <Navigate to="/auth/login" replace />,
     },
     { path: '*', element: <Navigate to="/404" replace /> },
   ]);

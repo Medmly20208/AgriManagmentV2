@@ -56,15 +56,6 @@ import EditModal from './EditModal';
 
 // ----------------------------------------------------------------------
 
-const SERVICE_OPTIONS = [
-  'all',
-  'full stack development',
-  'backend development',
-  'ui design',
-  'ui/ux design',
-  'front end development',
-];
-
 const TABLE_HEAD = [
   { id: 'Field', label: 'Field', align: 'left' },
   { id: 'Sub-Field', label: 'Sub-Field', align: 'left' },
@@ -199,12 +190,14 @@ export default function Courses() {
         getAllCourses();
       });
   };
+
   // delete Course
   const deleteCourse = (id) => {
     axios.delete(`http://localhost:5000/csfcourses/${id}`).then((res) => {
       getAllCourses();
     });
   };
+
   // edit course
   const updateCourse = (id, editedName, editedField) => {
     axios

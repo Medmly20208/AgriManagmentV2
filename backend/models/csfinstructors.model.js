@@ -7,47 +7,47 @@ const instructorSchema = new Schema(
     firstname: {
       type: String,
       required: true,
-      trim: true,
+      trim: false,
     },
     secondname: {
       type: String,
       required: true,
-      trim: true,
+      trim: false,
     },
     field: {
       type: String,
       required: true,
-      trim: true,
+      trim: false,
     },
     phonenumber: {
       type: String,
       required: true,
-      trim: true,
+      trim: false,
     },
     email: {
       type: String,
       required: true,
-      trim: true,
+      trim: false,
     },
     adress: {
       type: String,
       required: true,
-      trim: true,
+      trim: false,
     },
     city: {
       type: String,
       required: true,
-      trim: true,
+      trim: false,
     },
     coursedocument: {
       type: String,
       required: false,
-      trim: true,
+      trim: false,
     },
     cv: {
       type: String,
       required: false,
-      trim: true,
+      trim: false,
     },
   },
   {

@@ -1,5 +1,21 @@
-import React, { useState } from 'react';
-import { TextField, Box, Button, Typography, Modal, Stack } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+
+// mui
+import {
+  MenuItem,
+  FormControl,
+  InputLabel,
+  TextField,
+  Box,
+  Button,
+  Typography,
+  Modal,
+  Stack,
+  Select,
+} from '@mui/material';
+
+// axios
+import axios from 'axios';
 
 const style = {
   position: 'absolute',
@@ -14,6 +30,8 @@ const style = {
 };
 
 export default function BasicModal(props) {
+  const [availabeCourses, setAvailableCourses] = useState([]);
+
   const [firstname, setfirstname] = useState('');
   const [secondname, setsecondname] = useState('');
   const [field, setfield] = useState('');
@@ -38,6 +56,14 @@ export default function BasicModal(props) {
     });
     props.handleClose();
   };
+
+  const getAllCourses = () => {
+    axios.get('http://localhost:5000/csfcourses').then((res) => setAvailableCourses(res.data));
+  };
+
+  useEffect(() => {
+    getAllCourses();
+  }, []);
 
   return (
     <Modal
@@ -64,13 +90,27 @@ export default function BasicModal(props) {
               onChange={(event) => setsecondname(event.target.value)}
             />
 
-            <TextField
-              id="outlined-basic"
-              label="Type field"
-              variant="outlined"
-              value={field}
-              onChange={(event) => setfield(event.target.value)}
-            />
+            <Box>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">field</InputLabel>
+
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={field}
+                  label="Age"
+                  onChange={(event) => setfield(event.target.value)}
+                >
+                  {availabeCourses.map((element, index) => {
+                    return (
+                      <MenuItem key={index} value={element.field}>
+                        {element.field}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Box>
             <TextField
               id="outlined-basic"
               label="Type phonenumber"
@@ -103,21 +143,8 @@ export default function BasicModal(props) {
               value={city}
               onChange={(event) => setcity(event.target.value)}
             />
-            <TextField
-              id="outlined-basic"
-              label="Type coursedocument"
-              variant="outlined"
-              value={coursedocument}
-              onChange={(event) => setcoursedocument(event.target.value)}
-            />
-
-            <TextField
-              id="outlined-basic"
-              label="Type cv"
-              variant="outlined"
-              value={cv}
-              onChange={(event) => setcv(event.target.value)}
-            />
+            <input type="file" name="course document" onChange={(event) => setcoursedocument(event.target.files[0])} />
+            <input type="file" name="CV" onChange={(event) => setcv(event.target.files[0])} />
             <Button onClick={handleUpdateInstructor}>Update Instructor</Button>
           </Stack>
         </Stack>

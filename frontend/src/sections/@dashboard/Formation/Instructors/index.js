@@ -44,11 +44,8 @@ import Iconify from '../../../../components/Iconify';
 import Scrollbar from '../../../../components/Scrollbar';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
 import { TableEmptyRows, TableHeadCustom, TableNoData, TableSelectedActions } from '../../../../components/table';
-// sections
-import InvoiceAnalytic from '../../invoice/InvoiceAnalytic';
-import { InvoiceTableRow, InvoiceTableToolbar } from '../../invoice/list';
 
-// Add cousre Modal
+// Add instructor Modal
 import Modal from './Modal';
 
 // edit Modal
@@ -197,8 +194,6 @@ export default function Courses() {
   const AddInstructor = (instructorData) => {
     const { firstname, secondname, field, phonenumber, email, adress, city, coursedocument, cv } = instructorData;
 
-    console.log(instructorData);
-
     const formData = new FormData();
     const values = {
       firstname,
@@ -227,21 +222,26 @@ export default function Courses() {
   // edit Instructor
   const updateInstructor = (id, newInstructorData) => {
     const { firstname, secondname, field, phonenumber, email, adress, city, coursedocument, cv } = newInstructorData;
-    axios
-      .post(`http://localhost:5000/csfinstructors/update/${id}`, {
-        firstname,
-        secondname,
-        field,
-        phonenumber,
-        email,
-        adress,
-        city,
-        coursedocument,
-        cv,
-      })
-      .then((res) => {
-        getAllInstructors();
-      });
+
+    const formData = new FormData();
+    const values = {
+      firstname,
+      secondname,
+      field,
+      phonenumber,
+      email,
+      adress,
+      city,
+      cv,
+      coursedocument,
+    };
+
+    Object.keys(values).forEach((key) => formData.append(key, values[key]));
+    /*
+    axios.post(`http://localhost:5000/csfinstructors/update/${id}`, formData).then((res) => {
+      getAllInstructors();
+    });
+ */
   };
 
   const OpenModal = () => {
