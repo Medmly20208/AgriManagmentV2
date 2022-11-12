@@ -1,0 +1,12 @@
+clean code measurement : WTF/minute behind code review
+
+no one writes clean code first
+
+the only way yo go fast is to go well
+clean code do one thing well
+Long Code is not good code
+
+function names have to be verbs not nouns because it do things.
+
+start boolean variables always with is example:
+isAuthenticated

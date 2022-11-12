@@ -25,34 +25,10 @@ const upload = multer({ storage }).fields([
   { name: "coursedocument" },
 ]);
 
-/* router.route("/uploads").post(upload, (req, res) => {
-  const { files } = req;
-
-  console.log(files["coursedocument"][0].originalname);
-
-  res.send({
-    cvfile: files["cv"][0].originalname,
-    cvpath: (files["cv"][0] && files["cv"][0].path) || null,
-
-    coursedocumentfile: files["coursedocument"][0].originalname,
-    coursedocumentpath:
-      (files["coursedocument"][0] && files["coursedocument"][0].path) || null,
-  });
-});  */
-
 // add instructor
 router.route("/add").post(upload, (req, res) => {
-  const {
-    firstname,
-    secondname,
-    field,
-    phonenumber,
-    email,
-    adress,
-    city,
-    coursedocument,
-    cv,
-  } = req.body;
+  const { firstname, secondname, field, phonenumber, email, adress, city } =
+    req.body;
 
   const { files } = req;
 
@@ -109,12 +85,10 @@ router.route("/findAllMatchs/field/:sentence").get((req, res) => {
 });
 
 // update instructor by id
-router.route("/update/:id").post((req, res) => {
+router.route("/update/:id").post(upload, (req, res) => {
   Instructors.findById(req.params.id)
     .then((instructor) => {
       const { files } = req;
-
-      console.log(files);
 
       instructor.firstname = req.body.firstname;
       instructor.secondname = req.body.secondname;
@@ -128,7 +102,7 @@ router.route("/update/:id").post((req, res) => {
 
       instructor
         .save()
-        .then(() => res.json("instructor updtaed"))
+        .then(() => res.json("instructor updated"))
         .catch((err) => res.status(400).json("error", err));
     })
     .catch((err) => res.status(400).json("Error", err));

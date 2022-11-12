@@ -29,24 +29,19 @@ import {
 // axios
 import axios from 'axios';
 
-// routes
-import { PATH_DASHBOARD } from '../../../../routes/paths';
 // hooks
 import useTabs from '../../../../hooks/useTabs';
 import useSettings from '../../../../hooks/useSettings';
 import useTable, { getComparator, emptyRows } from '../../../../hooks/useTable';
+
 // _mock_
 import { _invoices } from '../../../../_mock';
+
 // components
 import Page from '../../../../components/Page';
-import Label from '../../../../components/Label';
 import Iconify from '../../../../components/Iconify';
 import Scrollbar from '../../../../components/Scrollbar';
-import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
 import { TableEmptyRows, TableHeadCustom, TableNoData, TableSelectedActions } from '../../../../components/table';
-// sections
-import InvoiceAnalytic from '../../invoice/InvoiceAnalytic';
-import { InvoiceTableRow, InvoiceTableToolbar } from '../../invoice/list';
 
 // Add cousre Modal
 import Modal from './Modal';
@@ -84,19 +79,17 @@ export default function Courses() {
 
   const { themeStretch } = useSettings();
 
-  const navigate = useNavigate();
-
   const {
     dense,
     page,
     order,
     orderBy,
     rowsPerPage,
-    setPage,
+
     //
     selected,
     setSelected,
-    onSelectRow,
+
     onSelectAllRows,
     //
     onSort,
@@ -107,65 +100,11 @@ export default function Courses() {
 
   const [editedId, setEditedId] = useState();
 
-  const [tableData, setTableData] = useState(_invoices);
-
   const [filterName, setFilterName] = useState('');
-
-  const [filterService, setFilterService] = useState('all');
-
-  const [filterStartDate, setFilterStartDate] = useState(null);
-
-  const [filterEndDate, setFilterEndDate] = useState(null);
-
-  const { currentTab: filterStatus, onChangeTab: onFilterStatus } = useTabs('all');
-
-  const handleFilterName = (filterName) => {
-    setFilterName(filterName);
-    setPage(0);
-  };
-
-  const handleFilterService = (event) => {
-    setFilterService(event.target.value);
-  };
-
-  const handleDeleteRow = (id) => {
-    const deleteRow = coursesList.filter((row) => row.id !== id);
-    setSelected([]);
-    setTableData(deleteRow);
-  };
-
-  const handleDeleteRows = (selected) => {
-    const deleteRows = coursesList.filter((row) => !selected.includes(row.id));
-    setSelected([]);
-    setTableData(deleteRows);
-  };
-
-  const handleEditRow = (id) => {
-    navigate(PATH_DASHBOARD.invoice.edit(id));
-  };
-
-  const handleViewRow = (id) => {
-    navigate(PATH_DASHBOARD.invoice.view(id));
-  };
 
   const denseHeight = dense ? 56 : 76;
 
-  const isNotFound =
-    (!coursesList?.length && !!filterName) ||
-    (!coursesList?.length && !!filterStatus) ||
-    (!coursesList?.length && !!filterService) ||
-    (!coursesList?.length && !!filterEndDate) ||
-    (!coursesList?.length && !!filterStartDate);
-
-  const getLengthByStatus = (status) => coursesList.filter((item) => item.status === status).length;
-
-  const getTotalPriceByStatus = (status) =>
-    sumBy(
-      coursesList.filter((item) => item.status === status),
-      'totalPrice'
-    );
-
-  const getPercentByStatus = (status) => (getLengthByStatus(status) / coursesList.length) * 100;
+  const isNotFound = !coursesList?.length;
 
   // get all matches
   const getAllMatches = (value) => {
@@ -269,15 +208,6 @@ export default function Courses() {
                       coursesList.map((row) => row.id)
                     )
                   }
-                  actions={
-                    <Stack spacing={1} direction="row">
-                      <Tooltip title="Delete">
-                        <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
-                          <Iconify icon={'eva:trash-2-outline'} />
-                        </IconButton>
-                      </Tooltip>
-                    </Stack>
-                  }
                 />
               )}
 
@@ -301,7 +231,6 @@ export default function Courses() {
                   {coursesList?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                     return (
                       <TableRow key={row._id}>
-                        <TableCell />
                         <TableCell>{row.name}</TableCell>
                         <TableCell>{row.field}</TableCell>
                         <TableCell>

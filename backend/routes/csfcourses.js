@@ -37,7 +37,6 @@ router.route("/:id").delete((req, res) => {
 });
 
 // Update course by id
-
 router.route("/UpdateCourse/:id").post((req, res) => {
   Course.findById(req.params.id)
     .then((course) => {

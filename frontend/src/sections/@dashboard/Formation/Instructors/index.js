@@ -80,7 +80,7 @@ export default function Courses() {
 
   const [openEdit, setOpenEdit] = useState(false);
 
-  const [searchType, setSearchType] = useState('');
+  const [searchType, setSearchType] = useState('firstname');
 
   // get all isntructors list
   const getAllInstructors = () => {
@@ -219,6 +219,7 @@ export default function Courses() {
       getAllInstructors();
     });
   };
+
   // edit Instructor
   const updateInstructor = (id, newInstructorData) => {
     const { firstname, secondname, field, phonenumber, email, adress, city, coursedocument, cv } = newInstructorData;
@@ -237,11 +238,10 @@ export default function Courses() {
     };
 
     Object.keys(values).forEach((key) => formData.append(key, values[key]));
-    /*
+
     axios.post(`http://localhost:5000/csfinstructors/update/${id}`, formData).then((res) => {
       getAllInstructors();
     });
- */
   };
 
   const OpenModal = () => {
@@ -256,6 +256,7 @@ export default function Courses() {
     setEditedId(id);
     setOpenEdit(true);
   };
+
   const CloseEditModal = () => setOpenEdit(false);
 
   return (

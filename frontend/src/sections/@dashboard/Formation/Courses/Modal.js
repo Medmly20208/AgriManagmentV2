@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
+
+// mui
 import { TextField, Box, Button, Typography, Modal, Stack } from '@mui/material';
+
+// function to check if string fields are empty,contains just spaces or not
+import isStringFieldsEmpty from '../../../../utils/isStringFieldsEmpty';
 
 const style = {
   position: 'absolute',
@@ -16,10 +21,16 @@ const style = {
 export default function BasicModal(props) {
   const [Field, setField] = useState('');
   const [SubField, setSubField] = useState('');
+  const [isEmptyRequiredField, setisEmptyRequiredField] = useState(false);
 
   const handleAddCourse = () => {
-    props.onAddCourse(Field, SubField);
-    props.handleClose();
+    setisEmptyRequiredField(false);
+    if (isStringFieldsEmpty(Field, SubField)) {
+      setisEmptyRequiredField(true);
+    } else {
+      props.onAddCourse(Field, SubField);
+      props.handleClose();
+    }
   };
 
   return (
@@ -36,6 +47,7 @@ export default function BasicModal(props) {
             label="Type Name"
             variant="outlined"
             value={Field}
+            required
             onChange={(event) => setField(event.target.value)}
           />
           <TextField
@@ -43,10 +55,12 @@ export default function BasicModal(props) {
             label="Type Sub-Field"
             variant="outlined"
             value={SubField}
+            required
             onChange={(event) => setSubField(event.target.value)}
           />
           <Button onClick={handleAddCourse}>Add Course</Button>
         </Stack>
+        {isEmptyRequiredField && <Typography color="red">*Required Fields Are Empty</Typography>}
       </Box>
     </Modal>
   );
