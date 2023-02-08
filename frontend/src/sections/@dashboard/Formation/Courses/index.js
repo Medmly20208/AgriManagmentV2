@@ -250,7 +250,7 @@ export default function Courses() {
                   })}
 
                   <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, coursesList?.length)} />
-
+                 
                   <TableNoData id="check" isNotFound={isNotFound} />
                 </TableBody>
               </Table>
